@@ -1,10 +1,9 @@
-import { User } from "../models/user.model.js";
 import { Channel } from "../models/userChannel.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import Jwt from "jsonwebtoken";
 
-export const verifyJWT = asyncHandler(async (req, _, next) => {
+export const verifyJWTChannel = asyncHandler(async (req, _, next) => {
   try {
     const token =
       req.cookies?.accessToken ||
@@ -14,7 +13,7 @@ export const verifyJWT = asyncHandler(async (req, _, next) => {
 
     const decodedToken = Jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const user = await User.findById(decodedToken?._id).select(
+    const user = await Channel.findById(decodedToken?._id).select(
       "-password -refreshToken"
     );
 

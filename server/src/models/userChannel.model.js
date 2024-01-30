@@ -1,36 +1,90 @@
-import {mongoose, Schema} from "mongoose"
+import { mongoose, Schema } from "mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const userChannel = new Schema(
-    {
-        channelName: {
-            type: String,
-            unique: true,
-            required: true,
-            trim: true
-        },
-        channelId: {
-            type: String,
-            unique: true,
-            required: true,
-            trim: true
-        },
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        },
-        channelPassword: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        avatar: {
-            type: String,
-            required: true,
-        }
+  {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    {
-        timestamps: true
-    }
-)
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    channelName: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
+    mobileNumber: {
+      type: Number,
+      unique: true,
+      required: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    avatar: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export const UserChannel = mongoose.model("UserChannel", userChannel)
+// pre hook is an mongoose middleware plugin
+userChannel.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  }
+});
+
+userChannel.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
+userChannel.methods.generateAccessToken = function () {
+  //to generate token
+  return jwt.sign(
+    // payload
+    {
+      _id: this._id,
+      email: this.email,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+    }
+  );
+};
+
+userChannel.methods.generateRefreshToken = function () {
+  return jwt.sign(
+    // payload
+    {
+      _id: this._id,
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+    }
+  );
+};
+
+export const Channel = mongoose.model("Channel", userChannel);

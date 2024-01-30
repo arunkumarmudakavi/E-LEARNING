@@ -1,11 +1,12 @@
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiResponse } from "../utils/ApiRespose.js";
 import { ApiError } from "../utils/ApiError.js";
-import { User } from "../models/user.model.js";
+import { Channel } from "../models/userChannel.model.js";
+import { uploadCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
-    const user = await User.findById(userId);
+    const user = await Channel.findById(userId);
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
@@ -24,89 +25,86 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
-const registerUser = asyncHandler(async (req, res) => {
-  // get all details from front-end
-  const { firstName, lastName, username, email, mobileNumber, password } =
+const registerChannel = asyncHandler(async (req, res) => {
+  const { channelName, password, firstName, lastName, email, mobileNumber } =
     req.body;
 
-  // validation - not empty
   if (
-    [firstName, lastName, username, email, mobileNumber, password].some(
+    [channelName, password, firstName, lastName, email, mobileNumber].some(
       (field) => field?.trim() === ""
     )
   ) {
     throw new ApiError(400, "All fields are required");
   }
 
-  // check if user already exists: email or username
-  const existedUser = await User.findOne({
-    $or: [{ email }, { mobileNumber }, { username }],
+  const existedUser = await Channel.findOne({
+    $or: [{ channelName }, { email }],
   });
+  // console.log(existedUser);
 
-  if (existedUser) {
-    throw new ApiError(
-      409,
-      "User with this email or mobile number or username already exists"
-    );
-  }
+  if (existedUser)
+    throw new ApiError(409, "channelname or email already exists.");
 
-  // create user object - create entry in db
-  const user = await User.create({
+  // console.log(req.body);
+  const avatarLocalPath = req.files?.avatar[0]?.path;
+  // console.log(req.files?.avatar[0]?.path);
+
+  if (!avatarLocalPath) throw new ApiError(400, "Avatar file is required");
+
+  const avatar = await uploadCloudinary(avatarLocalPath);
+
+  if (!avatar) throw new ApiError(400, "Avatar file is required");
+  // console.log(req.user);
+
+  // const userId = await User.findById(req.user?._id); //error
+  // console.log(userId._id);
+
+  const user = await Channel.create({
     firstName,
     lastName,
+    channelName,
     email,
     mobileNumber,
     password,
-    username: username?.toLowerCase(),
+    avatar: avatar.url,
   });
 
-  // remove password and refreshToken field from response
-  const createdUser = await User.findById(user._id).select(
-    "-password -refreshToken"
-  );
+  // console.log(user._id);
+
+  // remove refreshToken field from response
+  // const exist = await Userchannel.findById(user._id).select("-refreshToken");
 
   // check for user creation
-  if (!createdUser) {
-    throw new ApiError(500, "Something went wrong while registering the user");
-  }
+  // if (!exist) {
+  //   throw new ApiError(500, "Something went wrong while registering the user");
+  // }
 
-  // return response
   return res
     .status(201)
-    .json(new ApiResponse(200, createdUser, "User registered successfully..."));
+    .json(new ApiResponse(200, user, "User Registered Successfully"));
 });
 
-const loginUser = asyncHandler(async (req, res) => {
-  // get user details from front-end
-  const { email, username, password } = req.body;
+const loginChannel = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
-  // check if credentials are empty
-  if (!(email || username)) {
-    throw new ApiError(400, "username or email is required");
-  }
+  if (!(email || password)) throw new ApiError(400, "All fields are required");
 
-  // find the user
-  const user = await User.findOne({
-    $or: [{ email }, { username }],
-  });
+  const user = await Channel.findOne({ email });
 
-  // check if user exist or not
-  if (!user) {
-    throw new ApiError(404, "User does not exist");
-  }
+  if (!user) throw new ApiError(404, "Channel not found");
 
-  // check password
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(401, "Invalid user credentials");
+    throw new ApiError(401, "Invalid password");
   }
 
+  console.log(user._id);
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
     user._id
   );
 
-  const loggedInUser = await User.findById(user._id).select(
+  const loggedInChannel = await Channel.findById(user._id).select(
     "-password -refreshToken"
   );
 
@@ -123,17 +121,17 @@ const loginUser = asyncHandler(async (req, res) => {
       new ApiResponse(
         200,
         {
-          user: loggedInUser,
+          user: loggedInChannel,
           accessToken,
           refreshToken,
         },
-        "User logged in successfully"
+        "Channel logged in successfully"
       )
     );
 });
 
-const logoutUser = asyncHandler(async (req, res) => {
-  await User.findByIdAndUpdate(
+const logoutChannel = asyncHandler(async (req, res) => {
+  await Channel.findByIdAndUpdate(
     req.user._id,
     {
       $unset: {
@@ -169,7 +167,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET
     );
 
-    const user = await User.findById(decodedToken?._id);
+    const user = await Channel.findById(decodedToken?._id);
 
     if (!user) throw new ApiError(401, "Invalid refresh token");
 
@@ -203,4 +201,4 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken };
+export { refreshAccessToken, registerChannel, loginChannel, logoutChannel };
