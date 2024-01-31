@@ -2,7 +2,11 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiResponse } from "../utils/ApiRespose.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Channel } from "../models/userChannel.model.js";
-import { uploadCloudinary } from "../utils/cloudinary.js";
+import {
+  uploadCloudinary,
+  uploadVideoCloudinary,
+} from "../utils/cloudinary.js";
+import { Video } from "../models/video.model.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -99,7 +103,7 @@ const loginChannel = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid password");
   }
 
-  console.log(user._id);
+  // console.log(user._id);
   const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
     user._id
   );
@@ -201,4 +205,43 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
-export { refreshAccessToken, registerChannel, loginChannel, logoutChannel };
+const uploadVideo = asyncHandler(async (req, res) => {
+  const { title, description } = req.body;
+
+  const videoPath = req.files[0]?.path;
+  const thumb = req.files[1]?.path;
+
+  if (!videoPath) throw new ApiError(400, "Video is required");
+  if (!thumb) throw new ApiError(400, "Thumbnail is required");
+
+  const vid = await uploadVideoCloudinary(videoPath);
+  const thumbnailImg = await uploadCloudinary(thumb);
+
+  if (!vid) throw new ApiError(400, "Video is required");
+  if (!thumbnailImg) throw new ApiError(400, "Thumbnail is required");
+
+  const channelId = await Channel.findOne(req.user._id);
+  // console.log(channelId);
+
+  const uploadVideo = await Video.create({
+    videoFile: vid.url,
+    thumbnail: thumbnailImg.url,
+    title,
+    description,
+    owner: channelId._id,
+  });
+
+  if (!uploadVideo) throw new ApiError(500, "Something went wrong");
+
+  return res
+    .status(201)
+    .json(new ApiResponse(200, uploadVideo, "Video uploaded successfully"));
+});
+
+export {
+  refreshAccessToken,
+  registerChannel,
+  loginChannel,
+  logoutChannel,
+  uploadVideo,
+};

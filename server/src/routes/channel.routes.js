@@ -4,6 +4,7 @@ import {
   refreshAccessToken,
   loginChannel,
   logoutChannel,
+  uploadVideo,
 } from "../controllers/channel.controller.js";
 import { verifyJWTChannel } from "../middlewares/channelAuth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -23,5 +24,19 @@ channelRouter.route("/registerChannel").post(
 
 channelRouter.route("/login-channel").post(loginChannel);
 channelRouter.route("/logout-channel").post(verifyJWTChannel, logoutChannel);
+channelRouter.route("/uploadVideo").post(
+  verifyJWTChannel,
+  upload.any([
+    {
+      name: "video",
+      maxCount: 1,
+    },
+    {
+      name: "thumbnail",
+      maxCount: 1,
+    },
+  ]),
+  uploadVideo
+);
 
 export { channelRouter };
