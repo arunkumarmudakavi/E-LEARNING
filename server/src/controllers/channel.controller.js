@@ -267,6 +267,38 @@ const changePassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password updated successfully"));
 });
 
+const changeAvatar = asyncHandler(async (req, res) => {
+
+  // Single file that's file. If multiple then it's files.
+  const newAvatarLocalPath = req.file?.path
+  if(!newAvatarLocalPath) throw new ApiError(400, "Avatar not found")
+
+  const avatar = await uploadCloudinary(newAvatarLocalPath)
+  if(!avatar) throw new ApiError(400, "Error while uploading on cloudinary")
+
+  const user = await Channel.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        avatar: avatar.url,
+      }
+    },
+    {
+      new: true,
+    }
+  ).select("-password");
+
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(
+      200,
+      user,
+      "Avatar updated successfully"
+    )
+  )
+})
+
 export {
   refreshAccessToken,
   registerChannel,
@@ -275,4 +307,5 @@ export {
   uploadVideo,
   getChannelDetails,
   changePassword,
+  changeAvatar,
 };

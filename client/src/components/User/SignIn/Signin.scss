@@ -1,0 +1,41 @@
+@import "../../../css-config/mixins.scss";
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5rem;
+
+    .heading {
+        font-size: 3rem;
+        font-weight: 600;
+        @include md {
+            font-size: 5rem;
+            margin-bottom: 3rem;
+        }
+    }
+    input {
+        width: 80vw;
+        margin: 1rem;
+        padding: 1rem;
+        border: 2px solid black;
+        border-radius: .5rem;
+        @include md {
+            width: 40vw;
+            font-size: 1.5rem;
+        }
+    }
+    button {
+        padding: .5rem;
+        width: 40vw;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: .5rem;
+        margin-top: 1rem;
+        @include md {
+            width: 15vw;
+            padding: 1rem;
+            font-size: 1.5rem;
+        }
+    }
+}

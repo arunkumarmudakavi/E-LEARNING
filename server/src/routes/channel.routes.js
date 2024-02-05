@@ -7,8 +7,9 @@ import {
   uploadVideo,
   getChannelDetails,
   changePassword,
+  changeAvatar,
 } from "../controllers/channel.controller.js";
-import { verifyJWTChannel } from "../middlewares/channelAuth.middleware.js";
+import { verifyJWTChannel } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
 const channelRouter = Router();
@@ -43,5 +44,6 @@ channelRouter.route("/uploadVideo").post(
 
 channelRouter.route("/profile").get(verifyJWTChannel, getChannelDetails);
 channelRouter.route("/changePassword").post(verifyJWTChannel, changePassword);
+channelRouter.route("/avatar").patch(verifyJWTChannel, upload.single("avatar"), changeAvatar)
 
 export { channelRouter };
