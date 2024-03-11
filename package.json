@@ -1,4 +1,16 @@
 {
+  "name": "e-learning",
+  "version": "1.0.0",
+  "description": "E-Learning application for education purpose...",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "watch": "npm run server & npm run client",
+    "start": "node index.js"
+  },
+  "author": "arunkumar mudakavi",
+  "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.3",
     "prettier": "^3.2.4"

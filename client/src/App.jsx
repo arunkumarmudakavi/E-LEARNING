@@ -1,25 +1,48 @@
-import { Routes, Route } from "react-router-dom"
-import { Home } from "./components/User/Home/Home"
-import { Header } from "./components/User/Header/Header"
-import { Channels } from "./components/User/Channels/Channels"
-import { Profile } from "./components/User/Profile/Profile"
-import { Signin } from "./components/User/SignIn/Signin"
-import { SignUp } from "./components/Channel/SignUp/SignUp"
+import { Routes, Route, Outlet } from "react-router-dom";
+import { Header } from "./components/index.js";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { httpGetUserProfile } from "./hooks/userRequest.js";
+import { userLogin, userLogout } from "./features/authSlice.js";
+
+axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.withCredentials = true;
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
-  return (
+  useEffect(() => {
+    httpGetUserProfile()
+      .then((userData) => {
+        if (userData) {
+          dispatch(userLogin({ userData }));
+        } else {
+          dispatch(userLogout());
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  return !loading ? (
     <>
-      <Header/>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/channels" element={<Channels/>}/>
-        <Route path="/profile" element={<Profile/>}/>
-        <Route path="/signin" element={<Signin/>}/>
-        <Route path="/channel-register" element={<SignUp/>}/>
-      </Routes>
+      <Header />
+      <main>
+        todo
+        <Outlet />
+      </main>
+      {/* <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/channels" element={<Channels />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/channel-register" element={<SignUp />} />
+        <Route path="/register" element={<UserSignUp />} />
+        <Route path="/login-channel" element={<SignIn />} />
+      </Routes> */}
     </>
-  )
+  ) : null;
 }
 
-export default App
+export default App;

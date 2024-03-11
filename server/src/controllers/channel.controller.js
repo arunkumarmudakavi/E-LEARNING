@@ -50,14 +50,14 @@ const registerChannel = asyncHandler(async (req, res) => {
     throw new ApiError(409, "channelname or email already exists.");
 
   // console.log(req.body);
-  const avatarLocalPath = req.files?.avatar[0]?.path;
+  // const avatarLocalPath = req.files?.avatar[0]?.path;
   // console.log(req.files?.avatar[0]?.path);
 
-  if (!avatarLocalPath) throw new ApiError(400, "Avatar file is required");
+  // if (!avatarLocalPath) throw new ApiError(400, "Avatar file is required");
 
-  const avatar = await uploadCloudinary(avatarLocalPath);
+  // const avatar = await uploadCloudinary(avatarLocalPath);
 
-  if (!avatar) throw new ApiError(400, "Avatar file is required");
+  // if (!avatar) throw new ApiError(400, "Avatar file is required");
   // console.log(req.user);
 
   // const userId = await User.findById(req.user?._id); //error
@@ -70,7 +70,7 @@ const registerChannel = asyncHandler(async (req, res) => {
     email,
     mobileNumber,
     password,
-    avatar: avatar.url,
+    // avatar: avatar.url,
   });
 
   // console.log(user._id);

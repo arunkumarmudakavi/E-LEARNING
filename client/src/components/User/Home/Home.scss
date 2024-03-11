@@ -1,2 +1,6 @@
 @import "../../../css-config/mixins.scss";
 
+.vid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}

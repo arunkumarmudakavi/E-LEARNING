@@ -1,12 +1,16 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 const Context = createContext();
 
 const AppContext = ({ children }) => {
-    return <Context.Provider>{children}</Context.Provider>
-}
+  const [user, setUser] = useState({});
+  const [videos, setVideos] = useState();
 
-export {
-    Context,
-    AppContext,
-}
+  return (
+    <Context.Provider value={{ user, setUser, videos, setVideos }}>
+      {children}
+    </Context.Provider>
+  );
+};
+
+export { Context, AppContext };

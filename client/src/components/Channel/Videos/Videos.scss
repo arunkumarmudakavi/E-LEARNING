@@ -1,0 +1,11 @@
+@import "../../../css-config/mixins.scss";
+
+.thumb {
+    width: 8rem;
+    height: 4rem;
+}
+
+.video_top {
+    display: flex;
+    flex-direction: column;
+}

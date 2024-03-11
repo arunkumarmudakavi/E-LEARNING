@@ -6,6 +6,8 @@ import {
   refreshAccessToken,
   getCurrentUser,
   changePassword,
+  getVideos,
+  getVideo,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -17,5 +19,7 @@ userRouter.route("/logout").post(verifyJWT, logoutUser);
 userRouter.route("/refresh-token").post(refreshAccessToken);
 userRouter.route("/profile").get(verifyJWT, getCurrentUser);
 userRouter.route("/changePassword").post(verifyJWT, changePassword);
+userRouter.route("/videos").get(getVideos);
+userRouter.route("/videos/:id").get(getVideo);
 
 export { userRouter };

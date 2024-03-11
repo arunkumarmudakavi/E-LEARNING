@@ -1,13 +1,16 @@
+import axios from "axios"
 // I think error occurs here
 const httpChannelRegister = async (data) => {
   try {
-    return await fetch(`${import.meta.env.CHANNEL_API_URL}/registerChannel`, {
-      method: "post",
-      headers: {
-        "Content-Type": "auto",
-      },
-      body: JSON.stringify(data),
-    });
+    // return await fetch(`${import.meta.env.CHANNEL_API_URL}/registerChannel`, {
+    //   method: "post",
+    //   headers: {
+    //     "Content-Type": "auto",
+    //   },
+    //   body: JSON.stringify(data),
+    // });
+    // console.log(data);
+    return await axios.post(`${import.meta.env.VITE_CHANNEL_API_URL}/registerChannel`, data)
   } catch (error) {
     return {
       ok: false,
@@ -17,13 +20,15 @@ const httpChannelRegister = async (data) => {
 
 const httpChannelLogin = async (data) => {
   try {
-    return await fetch(`${import.meta.env.CHANNEL_API_URL}/login-channel`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    // console.log(data);
+    // return await fetch(`${import.meta.env.VITE_CHANNEL_API_URL}/login-channel`, {
+    //   method: "post",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // });
+    return await axios.post(`${import.meta.env.VITE_CHANNEL_API_URL}/login-channel`, data)
   } catch (error) {
     return {
       ok: false,

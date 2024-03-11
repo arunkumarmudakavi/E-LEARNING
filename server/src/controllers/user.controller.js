@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiResponse } from "../utils/ApiRespose.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
+import { Video } from "../models/video.model.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -26,6 +27,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
 
 const registerUser = asyncHandler(async (req, res) => {
   // get all details from front-end
+  // console.log(req.body);
   const { firstName, lastName, username, email, mobileNumber, password } =
     req.body;
 
@@ -212,7 +214,11 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, currentUser, "User details fetched successfully")
+      new ApiResponse(
+        200, 
+        currentUser, 
+        "User details fetched successfully"
+      )
     );
 });
 
@@ -234,6 +240,42 @@ const changePassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password updated successfully"));
 });
 
+const getVideos = asyncHandler(async (req, res) => {
+  const videos = await Video.find(req.videoFile);
+  // .select(
+  //   "-createdAt -updatedAt"
+  // );
+  // console.log(videos.videoFile);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200, 
+        videos, 
+        "User details fetched successfully"
+      )
+    );
+});
+
+const getVideo = asyncHandler(async (req, res) => {
+  const videos = await Video.findOne(req._id);
+  // .select(
+  //   "-createdAt -updatedAt"
+  // );
+  // console.log(videos.videoFile);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200, 
+        videos, 
+        "User details fetched successfully"
+      )
+    );
+});
+
 export {
   registerUser,
   loginUser,
@@ -241,4 +283,6 @@ export {
   refreshAccessToken,
   getCurrentUser,
   changePassword,
+  getVideos,
+  getVideo,
 };
