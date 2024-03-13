@@ -1,61 +1,69 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { httpChannelLogin } from "../../../hooks/channelRequest.js";
-import { loggedChannel } from "../../../features/handleSlice.js";
+import { Link, useNavigate } from "react-router-dom";
+import { httpChannelLogin, httpGetChannelProfile } from "../../../hooks/channelRequest.js";
+import { channelLogin } from "../../../features/channelAuthSlice.js";
 import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import {Input, Button} from "../../index.js"
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
+  const [error, setError] = useState("");
 
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-
-  const dispatch = useDispatch()
-
-  const handleLog = async (e) => {
-    e.preventDefault();
+  const handleLog = async (data) => {
+    setError("");
     try {
-      const response = await httpChannelLogin(user);
-      dispatch(loggedChannel(response))
-      // console.log(response);
+      const response = await httpChannelLogin(data);
+      
+      console.log(response);
       if (response?.data?.success) {
-        setUser({
-          email: "",
-          password: "",
-        });
-        navigate('/');
-    }
+        const channelData = await httpGetChannelProfile();
+        console.log(channelData);
+        if (channelData) dispatch(channelLogin(channelData))
+        navigate('/channel-home');
+      }
     //   console.log(response);
     } catch (error) {
+      setError(error.message)
       console.log("login error: ", error);
     }
   };
 
   return (
-    <>
-      <form onSubmit={handleLog} className="main-container">
+    <div>
+      <div>
+        <p>
+          Don't have an account?
+          <Link to="/registerChannel">Sign Up</Link>
+        </p>
+        {error && <p> {error}</p>}
+      </div>
+      <form onSubmit={handleSubmit(handleLog)} className="main-container">
         <span className="heading">Sign In</span>
-        <input
-          type="text"
-          name="email"
-          autoComplete="off"
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
+        <Input
+          label="Email: "
+          type="email"
           placeholder="Email"
-          required
+          {...register("email", {
+            required: true,
+            //validate: {matchPatern: () =>}
+          })}
         />
-        <input
+        <Input
+          label="Password: "
           type="password"
-          name="password"
-          autoComplete="off"
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
           placeholder="Password"
-          required
+          {...register("password", {
+            required: true,
+            //validate: {matchPatern: () =>}
+          })}
         />
-        <button type="submit">Sign In</button>
+        <Button type="submit" children="Sign In"/>
+        {/* <Button children="Sign In" /> */}
       </form>
-    </>
+    </div>
   );
 };
 

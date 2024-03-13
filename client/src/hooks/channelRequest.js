@@ -54,8 +54,9 @@ const httpChannelLogout = async (data) => {
 
 const httpGetChannelProfile = async () => {
   try {
-    const response = await fetch(`${import.meta.env.CHANNEL_API_URL}/profile`);
-    return await response.json();
+    return await axios.get(`${import.meta.env.VITE_CHANNEL_API_URL}/channelProfile`)
+    // const response = await fetch(`${import.meta.env.VITE_CHANNEL_API_URL}/channelProfile`);
+    // return await response.json();
   } catch (error) {
     return {
       ok: false,

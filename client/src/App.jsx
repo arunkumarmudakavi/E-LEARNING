@@ -2,7 +2,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import { Header } from "./components/index.js";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { httpGetUserProfile } from "./hooks/userRequest.js";
 import { userLogin, userLogout } from "./features/authSlice.js";
 
@@ -12,6 +12,9 @@ axios.defaults.withCredentials = true;
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+
+  // const status = useSelector((state) => state.auth.status)
+  // console.log(status);
 
   useEffect(() => {
     httpGetUserProfile()
@@ -29,7 +32,6 @@ function App() {
     <>
       <Header />
       <main>
-        todo
         <Outlet />
       </main>
       {/* <Routes>

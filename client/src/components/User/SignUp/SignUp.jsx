@@ -5,8 +5,7 @@ import { Button, Input } from "../../index.js";
 import { userLogin } from "../../../features/authSlice.js";
 import { useForm } from "react-hook-form";
 
-import { httpSubmitUserRegister } from "../../../hooks/userRequest.js";
-import {registerUser} from "../../../features/handleSlice.js"
+import { httpGetUserProfile, httpSubmitUserRegister } from "../../../hooks/userRequest.js";
 
 const UserSignUp = () => {
   const navigate = useNavigate();
@@ -23,28 +22,24 @@ const UserSignUp = () => {
   //   password: "",
   // });
 
-  const userRegister = async (e) => {
+  const userRegister = async (data) => {
 
-    console.log(data);
+    // console.log(data);
     setError("");
     try {
       const response = await httpSubmitUserRegister(data);
       // dispatch(userLogin(user));
-      // console.log(response.data.success);
-      if (response.data.success) {
-        const userData = await httpGetUserProfile();
-        if (userData) dispatch(userLogin(userData));
-        // setUser({
-        //     email: "",
-        //     password: "",
-        // })
-        navigate("/");
+      // console.log(response?.data?.success);
+      if (response?.data?.success) {
+        // const userData = await httpGetUserProfile();
+        // if (userData) dispatch(userLogin(userData));
+        navigate("/login");
       }
       // console.log(user);
-      console.log("successfully Registered");
+      // console.log("successfully Registered");
     } catch (error) {
       setError(error.message);
-      console.log("Registration error: ", error);
+      // console.log("Registration error: ", error);
     }
   };
 
@@ -78,6 +73,15 @@ const UserSignUp = () => {
           })}
         />
         <Input
+          label="Username: "
+          type="text"
+          placeholder="User Name"
+          {...register("username", {
+            required: true,
+            //validate: {matchPatern: () =>}
+          })}
+        />
+        <Input
           label="Email: "
           type="email"
           placeholder="Email"
@@ -104,7 +108,7 @@ const UserSignUp = () => {
             //validate: {matchPatern: () =>}
           })}
         />
-        <Button type="submit">Sign Up</Button>
+        <Button type="submit" children="Sign Up"/>
       </form>
     </div>
   );

@@ -26,6 +26,7 @@ const Header = () => {
     },[])
 
     const authStatus = useSelector((state) => state.auth.status)
+    // console.log(authStatus);
     const navItems = [
         {
             name: 'Home',
@@ -38,15 +39,20 @@ const Header = () => {
             active: !authStatus
         },
         {
-            name: 'Signup',
-            slug: "/signup",
+            name: 'Register',
+            slug: "/register",
             active: !authStatus
         },
         {
-            name: 'All Videos',
-            slug: "/videos",
+            name: 'Profile',
+            slug: "/profile",
             active: authStatus
-        }
+        },
+        {
+            name: 'Channel Register',
+            slug: "/registerChannel",
+            active: !authStatus
+        },
     ]
     return (
             <header className={`main-header ${scrolled ? 'sticky-header': ''}`}>

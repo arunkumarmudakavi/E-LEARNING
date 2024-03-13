@@ -1,106 +1,101 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { httpChannelRegister } from "../../../hooks/channelRequest.js"
+import { useForm } from "react-hook-form";
+import {Input, Button} from "../../index.js";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
+  const [error, setError] = useState("");
 
-    const navigate = useNavigate();
-
-    const [user, setUser] = useState({
-        avatar: "",
-        channelName: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-        mobileNumber: "",
-        password: "",
-      });
-
-      const handleSubmit = async (e) => {
-        e.preventDefault();
+      const createChannel = async (data) => {
+        setError("");
     
         try {
-          const response = await httpChannelRegister(user);
-          if (response.ok) {
-            setUser({
-              avatar: "",
-              channelName: "",
-              firstName: "",
-              lastName: "",
-              email: "",
-              mobileNumber: "",
-              password: "",
-            });
+          const response = await httpChannelRegister(data);
+          console.log(response);
+          if (response?.data?.success) {
+            navigate("/login-channel")
         }
         // console.log(user);
-        // console.log("success");
-        navigate('/login-channel')
     
         } catch (error) {
+          setError(error.message)
           console.log("register error", error);
         }
       };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="main-container">
-        <span className="heading">Create a Channel</span>
-        {/* <input
-            type="file"
-            name="avatar"
-            onChange={(e) => setUser({ ...user, avatar: e.target.value})}
-        /> */}
-        <input
-          type="text"
-          name="channelName"
-          placeholder="Channel Name"
-          autoComplete="off"
-          onChange={(e) => setUser({ ...user, channelName: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          autoComplete="off"
-          onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          autoComplete="off"
-          onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          autoComplete="off"
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
-          required
-        />
-        <input
-          type="number"
-          name="mobileNumber"
-          placeholder="Mobile Number"
-          autoComplete="off"
-          onChange={(e) => setUser({ ...user, mobileNumber: e.target.value })}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          autoComplete="off"
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
-          required
-        />
-        <button type="submit">Create a channel</button>
-      </form>
-    </>
+    <div>
+    <div>
+      <p>
+        Already have an account?
+        <Link to="/login-channel">Log In</Link>
+      </p>
+      {error && <p> {error}</p>}
+    </div>
+    <form onSubmit={handleSubmit(createChannel)} className="main-container">
+      <span className="heading">Sign Up</span>
+      <Input
+        label="Channel Name: "
+        type="text"
+        placeholder="Channel Name"
+        {...register("channelName", {
+          required: true,
+          //validate: {matchPatern: () =>}
+        })}
+      />
+      <Input
+        label="First Name: "
+        type="text"
+        placeholder="First Name"
+        {...register("firstName", {
+          required: true,
+          //validate: {matchPatern: () =>}
+        })}
+      />
+      <Input
+        label="Last Name: "
+        type="text"
+        placeholder="Last Name"
+        {...register("lastName", {
+          required: true,
+          //validate: {matchPatern: () =>}
+        })}
+      />
+      
+      <Input
+        label="Email: "
+        type="email"
+        placeholder="Email"
+        {...register("email", {
+          required: true,
+          //validate: {matchPatern: () =>}
+        })}
+      />
+      <Input
+        label="Mobile Number: "
+        type="text"
+        placeholder="Mobile Number"
+        {...register("mobileNumber", {
+          required: true,
+          //validate: {matchPatern: () =>}
+        })}
+      />
+      <Input
+        label="Password: "
+        type="password"
+        placeholder="Password"
+        {...register("password", {
+          required: true,
+          //validate: {matchPatern: () =>}
+        })}
+      />
+      <Button type="submit" children="Create a Channel"/>
+    </form>
+  </div>
   );
 };
 

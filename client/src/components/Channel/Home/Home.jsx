@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Home = () => {
+const ChannelHome = () => {
   return (
     <>
       <div>Home</div>
@@ -10,5 +10,5 @@ const Home = () => {
 }
 
 export {
-    Home,
+  ChannelHome,
 }

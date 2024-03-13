@@ -11,8 +11,10 @@ const httpSubmitUserRegister = async (data) => {
     //   body: JSON.stringify(data),
     // });
 
-    // console.log({data});
-    return await axios.post(`${import.meta.env.VITE_API_URL}/register`, data)
+    // console.log(data);
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/register`, data)
+    // console.log(response);
+    return response
   } catch (error) {
     return {
       ok: false,
@@ -22,7 +24,7 @@ const httpSubmitUserRegister = async (data) => {
 
 const httpUserLogIn = async (data) => {
   try {
-    // console.log(import.meta.env.VITE_API_URL);
+    // console.log(data);
     return await axios.post(`${import.meta.env.VITE_API_URL}/login`, data)
     // return await fetch(`${import.meta.env.VITE_API_URL}/login`, {
     //   method: "post",
@@ -41,13 +43,16 @@ const httpUserLogIn = async (data) => {
 
 const httpUserLogout = async (data) => {
   try {
-    return await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const res =  await axios.post(`${import.meta.env.VITE_API_URL}/logout`, data)
+    // return await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
+    //   method: "post",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // });
+    // console.log(res);
+    return res
   } catch (error) {
     return {
       ok: false,
@@ -56,10 +61,11 @@ const httpUserLogout = async (data) => {
 };
 
 const httpGetUserProfile = async () => {
-  return await axios.get(`${import.meta.env.VITE_API_URL}/profile`)
+  const fetchedUser =  await axios.get(`${import.meta.env.VITE_API_URL}/profile`)
   // const response = await fetch(`${import.meta.env.VITE_API_URL}/profile`);
   // const fetchedUser = await response.json();
-  // return fetchedUser;
+  // console.log(fetchedUser);
+  return fetchedUser;
 };
 
 const httpChangeUserPassword = async (data) => {

@@ -42,15 +42,17 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // check if user already exists: email or username
   const existedUser = await User.findOne({
-    $or: [{ email }, { mobileNumber }, { username }],
+    $or: [{ email }, { mobileNumber }, {username}],
   });
+  // console.log(existedUser);
 
   if (existedUser) {
     throw new ApiError(
       409,
-      "User with this email or mobile number or username already exists"
+      "User with this email or mobile number already exists"
     );
   }
+
 
   // create user object - create entry in db
   const user = await User.create({
@@ -62,16 +64,18 @@ const registerUser = asyncHandler(async (req, res) => {
     username: username?.toLowerCase(),
   });
 
+  // console.log(user);
+
   // remove password and refreshToken field from response
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
 
+  // console.log(createdUser);
   // check for user creation
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
-
   // return response
   return res
     .status(201)
@@ -82,6 +86,7 @@ const loginUser = asyncHandler(async (req, res) => {
   // get user details from front-end
   const { email, username, password } = req.body;
 
+  // console.log("pwd: ", password);
   // check if credentials are empty
   if (!(email || username)) {
     throw new ApiError(400, "username or email is required");
@@ -92,6 +97,7 @@ const loginUser = asyncHandler(async (req, res) => {
     $or: [{ email }, { username }],
   });
 
+  // console.log("user : ", user);
   // check if user exist or not
   if (!user) {
     throw new ApiError(404, "User does not exist");
@@ -206,6 +212,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
+  // console.log(req);
   const currentUser = await User.findOne(req.user).select(
     "-createdAt -updatedAt"
   );

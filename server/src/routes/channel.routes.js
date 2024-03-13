@@ -42,7 +42,7 @@ channelRouter.route("/uploadVideo").post(
   uploadVideo
 );
 
-channelRouter.route("/profile").get(verifyJWTChannel, getChannelDetails);
+channelRouter.route("/channelProfile").get(verifyJWTChannel, getChannelDetails);
 channelRouter.route("/changePassword").post(verifyJWTChannel, changePassword);
 // channelRouter.route("/avatar").patch(verifyJWTChannel, upload.single("avatar"), changeAvatar)
 channelRouter.route("/avatar").patch(verifyJWTChannel, changeAvatar)

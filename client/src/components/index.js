@@ -9,6 +9,13 @@ import PostCard from "./PostCard";
 import AuthLayout from "../components/AuthLayout"
 import AllPosts from "../pages/AllPosts";
 import SingleVideo from "./SingleVideo";
+import { SignIn } from "./Channel/SignIn/SignIn";
+import { SignUp } from "./Channel/SignUp/SignUp";
+import channelProfile from "./Channel/Profile/Profile"
+import { Videos } from "./Channel/Videos/Videos";
+import UploadVideo from "./Channel/UploadVideo/UploadVideo";
+import { ChannelHome } from "./Channel/Home/Home";
+
 
 
 export {
@@ -23,4 +30,10 @@ export {
     AuthLayout,
     AllPosts,
     SingleVideo,
+    SignIn,
+    SignUp,
+    channelProfile,
+    Videos,
+    UploadVideo,
+    ChannelHome,
 }

@@ -16,18 +16,13 @@ const Signin = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
-  //    const [user, setUser] = useState({
-  //        email: "",
-  //        password: "",
-  //     })
-
   const login = async (data) => {
-    console.log(data);
+    // console.log(data);
     setError("");
     try {
       const response = await httpUserLogIn(data);
       // dispatch(response);
-      // console.log(response.data.success);
+      // console.log(response);
       if (response?.data?.success) {
         const userData = await httpGetUserProfile();
         if (userData) dispatch(userLogin(userData));
