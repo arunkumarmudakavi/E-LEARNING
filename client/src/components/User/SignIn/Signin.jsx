@@ -1,4 +1,4 @@
-import "./Signin.scss";
+
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -38,29 +38,21 @@ const Signin = () => {
   };
 
   return (
-    <div>
-      <div>
-        <p>
-          Don't have an account?
-          <Link to="/register">Sign Up</Link>
-        </p>
-        {error && <p> {error}</p>}
-      </div>
-      <form onSubmit={handleSubmit(login)} className="main-container">
-        <span className="heading">Sign In</span>
+    <div className="flex flex-col text-white font-serif justify-center items-center mt-20 bg-gray-700 p-10 mr-20 ml-20 rounded-md">
+      
+      <form onSubmit={handleSubmit(login)} className="flex flex-col items-center">
+        <center className="text-5xl mb-4">Sign In</center>
         <Input
-          label="Email: "
           type="email"
-          placeholder="Email"
+          placeholder="Enter Email"
           {...register("email", {
             required: true,
             //validate: {matchPatern: () =>}
           })}
         />
         <Input
-          label="Password: "
           type="password"
-          placeholder="Password"
+          placeholder="Enter Password"
           {...register("password", {
             required: true,
             //validate: {matchPatern: () =>}
@@ -69,6 +61,13 @@ const Signin = () => {
         <Button type="submit" children="Sign In"/>
         {/* <Button children="Sign In" /> */}
       </form>
+      <div>
+        <p>
+          Don't have an account?
+          <Link to="/register" className="underline"> Sign Up</Link>
+        </p>
+        {error && <p> {error}</p>}
+      </div>
     </div>
   );
 };

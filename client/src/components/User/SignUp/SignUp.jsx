@@ -13,23 +13,11 @@ const UserSignUp = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
-  // const [user, setUser] = useState({
-  //   firstName: "",
-  //   lastName: "",
-  //   username: "",
-  //   email: "",
-  //   mobileNumber: "",
-  //   password: "",
-  // });
-
   const userRegister = async (data) => {
 
-    // console.log(data);
     setError("");
     try {
       const response = await httpSubmitUserRegister(data);
-      // dispatch(userLogin(user));
-      // console.log(response?.data?.success);
       if (response?.data?.success) {
         // const userData = await httpGetUserProfile();
         // if (userData) dispatch(userLogin(userData));
@@ -44,65 +32,53 @@ const UserSignUp = () => {
   };
 
   return (
-    <div>
-      <div>
-        <p>
-          Already have an account?
-          <Link to="/login">Sign Up</Link>
-        </p>
-        {error && <p> {error}</p>}
-      </div>
-      <form onSubmit={handleSubmit(userRegister)} className="main-container">
-        <span className="heading">Sign Up</span>
+    <div className="flex flex-col text-white font-serif justify-center items-center mt-20 bg-gray-700 p-10 mr-20 ml-20 rounded-md">
+      
+      <form onSubmit={handleSubmit(userRegister)} className="flex flex-col items-center">
+        <span className="text-5xl mb-4">Sign Up</span>
         <Input
-          label="First Name: "
           type="text"
-          placeholder="First Name"
+          placeholder="Enter First Name"
           {...register("firstName", {
             required: true,
             //validate: {matchPatern: () =>}
           })}
         />
         <Input
-          label="Last Name: "
           type="text"
-          placeholder="Last Name"
+          placeholder="Enter Last Name"
           {...register("lastName", {
             required: true,
             //validate: {matchPatern: () =>}
           })}
         />
         <Input
-          label="Username: "
           type="text"
-          placeholder="User Name"
+          placeholder="Enter User Name"
           {...register("username", {
             required: true,
             //validate: {matchPatern: () =>}
           })}
         />
         <Input
-          label="Email: "
           type="email"
-          placeholder="Email"
+          placeholder="Enter Email"
           {...register("email", {
             required: true,
             //validate: {matchPatern: () =>}
           })}
         />
         <Input
-          label="Mobile Number: "
           type="text"
-          placeholder="Mobile Number"
+          placeholder="Enter Mobile Number"
           {...register("mobileNumber", {
             required: true,
             //validate: {matchPatern: () =>}
           })}
         />
         <Input
-          label="Password: "
           type="password"
-          placeholder="Password"
+          placeholder="Enter Password"
           {...register("password", {
             required: true,
             //validate: {matchPatern: () =>}
@@ -110,6 +86,13 @@ const UserSignUp = () => {
         />
         <Button type="submit" children="Sign Up"/>
       </form>
+      <div>
+        <p>
+          Already have an account?
+          <Link to="/login" className="underline"> Sign In</Link>
+        </p>
+        {error && <p> {error}</p>}
+      </div>
     </div>
   );
 };

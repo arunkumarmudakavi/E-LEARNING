@@ -9,9 +9,9 @@ const channelAuthSlice = createSlice({
   name: "channelAuth",
   initialState,
   reducers: {
-    channelLogin: (state) => {
+    channelLogin: (state, action) => {
       state.status = true;
-      state.channelData = action.payload.userData;
+      state.channelData = action.payload.channelData;
     },
     channelLogout: (state) => {
       (state.status = false), (state.channelData = null);

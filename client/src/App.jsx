@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { httpGetUserProfile } from "./hooks/userRequest.js";
 import { userLogin, userLogout } from "./features/authSlice.js";
+import './index.css'
 
 axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
@@ -30,8 +31,8 @@ function App() {
 
   return !loading ? (
     <>
-      <Header />
-      <main>
+      <Header  />
+      <main className="font-mono">
         <Outlet />
       </main>
       {/* <Routes>

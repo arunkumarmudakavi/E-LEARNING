@@ -8,7 +8,7 @@ export const Button = ({
     value = '',
     ...props
 }) => {
-  return <button className={`${className}`} {...props}>
+  return <button className={`${className} bg-white text-black font-bold font-mono rounded-md w-auto p-2 m-2` } {...props}>
         {children}
     </button>
   

@@ -23,43 +23,34 @@ const SignUp = () => {
     
         } catch (error) {
           setError(error.message)
-          console.log("register error", error);
+          // console.log("register error", error);
         }
       };
 
   return (
-    <div>
-    <div>
-      <p>
-        Already have an account?
-        <Link to="/login-channel">Log In</Link>
-      </p>
-      {error && <p> {error}</p>}
-    </div>
-    <form onSubmit={handleSubmit(createChannel)} className="main-container">
-      <span className="heading">Sign Up</span>
+    <div  className="flex flex-col text-white font-serif justify-center items-center mt-20 bg-gray-700 p-10 mr-20 ml-20 rounded-md">
+    
+    <form onSubmit={handleSubmit(createChannel)} className="flex flex-col items-center">
+      <span className="text-5xl mb-4">Create a channel</span>
       <Input
-        label="Channel Name: "
         type="text"
-        placeholder="Channel Name"
+        placeholder="Enter Channel Name"
         {...register("channelName", {
           required: true,
           //validate: {matchPatern: () =>}
         })}
       />
       <Input
-        label="First Name: "
         type="text"
-        placeholder="First Name"
+        placeholder="Enter First Name"
         {...register("firstName", {
           required: true,
           //validate: {matchPatern: () =>}
         })}
       />
       <Input
-        label="Last Name: "
         type="text"
-        placeholder="Last Name"
+        placeholder="Enter Last Name"
         {...register("lastName", {
           required: true,
           //validate: {matchPatern: () =>}
@@ -67,27 +58,24 @@ const SignUp = () => {
       />
       
       <Input
-        label="Email: "
         type="email"
-        placeholder="Email"
+        placeholder="Enter Email"
         {...register("email", {
           required: true,
           //validate: {matchPatern: () =>}
         })}
       />
       <Input
-        label="Mobile Number: "
         type="text"
-        placeholder="Mobile Number"
+        placeholder="Enter Mobile Number"
         {...register("mobileNumber", {
           required: true,
           //validate: {matchPatern: () =>}
         })}
       />
       <Input
-        label="Password: "
         type="password"
-        placeholder="Password"
+        placeholder="Enter Password"
         {...register("password", {
           required: true,
           //validate: {matchPatern: () =>}
@@ -95,6 +83,13 @@ const SignUp = () => {
       />
       <Button type="submit" children="Create a Channel"/>
     </form>
+    <div>
+      <p>
+        Already have an account?
+        <Link to="/login-channel"  className="underline"> Log In</Link>
+      </p>
+      {error && <p> {error}</p>}
+    </div>
   </div>
   );
 };

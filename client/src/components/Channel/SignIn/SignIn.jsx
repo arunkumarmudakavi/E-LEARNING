@@ -27,34 +27,26 @@ const SignIn = () => {
     //   console.log(response);
     } catch (error) {
       setError(error.message)
-      console.log("login error: ", error);
+      // console.log("login error: ", error);
     }
   };
 
   return (
-    <div>
-      <div>
-        <p>
-          Don't have an account?
-          <Link to="/registerChannel">Sign Up</Link>
-        </p>
-        {error && <p> {error}</p>}
-      </div>
-      <form onSubmit={handleSubmit(handleLog)} className="main-container">
-        <span className="heading">Sign In</span>
+    <div  className="flex flex-col text-white font-serif justify-center items-center mt-20 bg-gray-700 p-10 mr-20 ml-20 rounded-md">
+      
+      <form onSubmit={handleSubmit(handleLog)} className="flex flex-col items-center">
+        <span className="text-4xl mb-4">Log In to Channel</span>
         <Input
-          label="Email: "
           type="email"
-          placeholder="Email"
+          placeholder="Enter Email"
           {...register("email", {
             required: true,
             //validate: {matchPatern: () =>}
           })}
         />
         <Input
-          label="Password: "
           type="password"
-          placeholder="Password"
+          placeholder="Enter Password"
           {...register("password", {
             required: true,
             //validate: {matchPatern: () =>}
@@ -63,6 +55,13 @@ const SignIn = () => {
         <Button type="submit" children="Sign In"/>
         {/* <Button children="Sign In" /> */}
       </form>
+      <div>
+        <p>
+          Don't have an channel?
+          <Link to="/registerChannel"  className="underline"> Create a channel</Link>
+        </p>
+        {error && <p> {error}</p>}
+      </div>
     </div>
   );
 };

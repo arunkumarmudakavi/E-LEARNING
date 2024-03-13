@@ -1,4 +1,4 @@
-import "./Home.scss"
+
 import { useDispatch, useSelector } from "react-redux"
 
 

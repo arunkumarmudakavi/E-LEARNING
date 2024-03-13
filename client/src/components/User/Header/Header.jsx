@@ -1,4 +1,4 @@
-import "./Header.scss";
+
 
 import {useEffect, useState} from "react"
 import { useSelector } from "react-redux";
@@ -14,7 +14,7 @@ const Header = () => {
     const handleScroll = () => {
         const offset = window.scrollY;
         // console.log(offset);
-        if(offset > 200) {
+        if(offset > 100) {
             setScrolled(true)
         }else{
             setScrolled(false)
@@ -26,22 +26,28 @@ const Header = () => {
     },[])
 
     const authStatus = useSelector((state) => state.auth.status)
+    const channelAuthStatus = useSelector((state) => state.channelAuth.status)
     // console.log(authStatus);
     const navItems = [
         {
             name: 'Home',
             slug: "/",
-            active: true
+            active: true && !channelAuthStatus
+        },
+        {
+            name: 'Home',
+            slug: "/channel-home",
+            active: channelAuthStatus
         },
         {
             name: 'Login',
             slug: "/login",
-            active: !authStatus
+            active: !authStatus && !channelAuthStatus
         },
         {
             name: 'Register',
             slug: "/register",
-            active: !authStatus
+            active: !authStatus && !channelAuthStatus
         },
         {
             name: 'Profile',
@@ -51,20 +57,35 @@ const Header = () => {
         {
             name: 'Channel Register',
             slug: "/registerChannel",
-            active: !authStatus
+            active: !authStatus && !channelAuthStatus
+        },
+        {
+            name: 'Channel Login',
+            slug: "/login-channel",
+            active: !channelAuthStatus && !authStatus
+        },
+        {
+            name: 'Profile',
+            slug: "/channelProfile",
+            active: channelAuthStatus
+        },
+        {
+            name: 'Upload Video',
+            slug: "/uploadVideo",
+            active: channelAuthStatus
         },
     ]
     return (
-            <header className={`main-header ${scrolled ? 'sticky-header': ''}`}>
+            <header className={` ${scrolled ? 'sticky': ''}`}>
                 <Container>
-                    <nav>
-                        <div>
-                            <Link to='/'>Logo</Link>
+                    <nav className="bg-gray-700 text-white flex justify-between p-4 items-center">
+                        <div className="caret-violet-50 text-3xl italic">
+                            <Link to='/'>E-Lerning</Link>
                         </div>
-                        <ul>
+                        <ul className="flex">
                             {navItems.map((item) => 
                             item.active ? (
-                                <li key={item.name}>
+                                <li key={item.name} className="mr-6 text-lg">
                                     <button onClick={() => navigate(item.slug)}>
                                         {item.name}
                                     </button>
@@ -79,20 +100,6 @@ const Header = () => {
                         </ul>
                     </nav>
                 </Container>
-                {/* <section className="header-content">
-                    <section className="left">
-                        ELEARN
-                    </section>
-                    <ul className="right">
-                        <li onClick={() => navigate("/")}>Home</li>
-                        <li onClick={() => navigate("/channels")}>Channels</li>
-                        <li onClick={() => navigate("/profile")}>Profile</li>
-                        <li onClick={() => navigate("/signin")}>Sign In</li>
-                        <li onClick={() => navigate("/register")}>Sign Up</li>
-                        <li onClick={() => navigate("/logout")}>Logout</li>
-                        <li onClick={() => navigate("/channel-register")}>Create a channel</li>
-                    </ul>
-                </section> */}
             </header>
     )
 }

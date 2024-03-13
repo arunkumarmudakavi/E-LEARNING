@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "./Videos.scss";
 import { httpGetVideos } from "../../../hooks/userRequest.js";
 
 const Videos = ({ videos }) => {

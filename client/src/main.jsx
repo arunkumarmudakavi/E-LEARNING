@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
+import './index.css'
 import {
   RouterProvider,
   createBrowserRouter,
@@ -18,11 +19,14 @@ import {
   SingleVideo,
   SignIn,
   SignUp,
-  channelProfile,
+  ChannelProfile,
   Videos,
   ChannelHome,
   UploadVideo,
 } from "./components/index.js";
+import ChannelAuthLayout from "./components/ChannelAuthLayout.jsx";
+
+
 
 
 
@@ -63,79 +67,62 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/registerChannel",
-        element: (
-          <AuthLayout authentication={false}>
-            {" "}
-            <SignUp />
-          </AuthLayout>
-        ),
-      },
-      {
-        path: "/login-channel",
-        element: (
-          <AuthLayout authentication={false}>
-            {" "}
-            <SignIn />
-          </AuthLayout>
-        ),
-      },
-      {
         path: `/videos/:id`,
         element: <SingleVideo />,
       },
       {
-        path: "/registerChannel",
-        element: (
-          <AuthLayout authentication={false}>
-            {" "}
-            <SignUp />
-          </AuthLayout>
-        ),
-      },
-      {
         path: "/login-channel",
         element: (
-          <AuthLayout authentication={false}>
+          <ChannelAuthLayout authentication={false}>
             {" "}
             <SignIn />
-          </AuthLayout>
+          </ChannelAuthLayout>
+        ),
+      },
+      
+      {
+        path: "/registerChannel",
+        element: (
+          <ChannelAuthLayout authentication={false}>
+            {" "}
+            <SignUp />
+          </ChannelAuthLayout>
         ),
       },
       {
         path: "/channel-home",
         element: (
-          <AuthLayout authentication={false}>
+          <ChannelAuthLayout authentication>
             {" "}
             <ChannelHome />
-          </AuthLayout>
+          </ChannelAuthLayout>
         ),
       },
       {
         path: "/channelProfile",
         element: (
-          <AuthLayout authentication>
+          <ChannelAuthLayout authentication>
             {" "}
-            <channelProfile />
-          </AuthLayout>
+            <ChannelProfile/>
+          </ChannelAuthLayout>
         ),
       },
       {
         path: "/allVideos",
         element: (
-          <AuthLayout authentication>
+          <ChannelAuthLayout authentication>
             {" "}
             <Videos />
-          </AuthLayout>
+          </ChannelAuthLayout>
         ),
       },
       {
         path: "/uploadVideo",
         element: (
-          <AuthLayout authentication>
+          <ChannelAuthLayout authentication>
             {" "}
             <UploadVideo />
-          </AuthLayout>
+          </ChannelAuthLayout>
         ),
       },
     ],

@@ -11,7 +11,7 @@ import AllPosts from "../pages/AllPosts";
 import SingleVideo from "./SingleVideo";
 import { SignIn } from "./Channel/SignIn/SignIn";
 import { SignUp } from "./Channel/SignUp/SignUp";
-import channelProfile from "./Channel/Profile/Profile"
+import ChannelProfile from "./Channel/Profile/channelProfile"
 import { Videos } from "./Channel/Videos/Videos";
 import UploadVideo from "./Channel/UploadVideo/UploadVideo";
 import { ChannelHome } from "./Channel/Home/Home";
@@ -32,7 +32,7 @@ export {
     SingleVideo,
     SignIn,
     SignUp,
-    channelProfile,
+    ChannelProfile,
     Videos,
     UploadVideo,
     ChannelHome,
