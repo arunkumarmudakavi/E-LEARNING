@@ -20,6 +20,6 @@ userRouter.route("/refresh-token").post(refreshAccessToken);
 userRouter.route("/profile").get(verifyJWT, getCurrentUser);
 userRouter.route("/changePassword").post(verifyJWT, changePassword);
 userRouter.route("/videos").get(getVideos);
-userRouter.route("/videos/:id").get(getVideo);
+userRouter.route("/videos/:_id").get( getVideo);
 
 export { userRouter };

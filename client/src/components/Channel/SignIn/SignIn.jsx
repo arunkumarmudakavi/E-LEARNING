@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { httpChannelLogin, httpGetChannelProfile } from "../../../hooks/channelRequest.js";
+import {
+   httpChannelLogin, 
+   httpGetChannelProfile
+ } from "../../../hooks/channelRequest.js";
 import { channelLogin } from "../../../features/channelAuthSlice.js";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -17,12 +20,17 @@ const SignIn = () => {
     try {
       const response = await httpChannelLogin(data);
       
-      console.log(response);
+      // console.log(response);
       if (response?.data?.success) {
-        const channelData = await httpGetChannelProfile();
-        console.log(channelData);
-        if (channelData) dispatch(channelLogin(channelData))
-        navigate('/channel-home');
+        const userData = await httpGetChannelProfile();
+        console.log(userData.data);
+        if (userData) {
+          const log = dispatch(channelLogin({...userData}))
+          console.log(log);
+          navigate('/channel-home');
+        } 
+        
+        
       }
     //   console.log(response);
     } catch (error) {

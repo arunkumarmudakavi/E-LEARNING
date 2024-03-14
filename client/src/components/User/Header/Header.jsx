@@ -4,6 +4,7 @@ import {useEffect, useState} from "react"
 import { useSelector } from "react-redux";
 import {useNavigate, Link} from "react-router-dom"
 import {LogoutBtn, Container} from "../../index.js";
+import LogoutChannel  from "./LogoutChannel.jsx"
 
 
 const Header = () => {
@@ -92,11 +93,18 @@ const Header = () => {
                                 </li>
                             ) : null
                             )}
-                            { authStatus && (
+                            { (authStatus && !channelAuthStatus) && (
                                 <li>
                                     <LogoutBtn/>
                                 </li>
                             )}
+                            {
+                                (channelAuthStatus && !authStatus) && (
+                                    <li>
+                                        <LogoutChannel/>
+                                    </li>
+                                )
+                            }
                         </ul>
                     </nav>
                 </Container>

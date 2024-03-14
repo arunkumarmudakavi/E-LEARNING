@@ -13,7 +13,7 @@ const uploadCloudinary = async (localFilePath) => {
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
     });
-    // console.log("image uploaded", response.url);
+    console.log("image uploaded", response.url);
     fs.unlinkSync(localFilePath);
     return response;
   } catch (error) {
@@ -28,7 +28,7 @@ const uploadVideoCloudinary = async (localVideoPath) => {
     const response = await cloudinary.uploader.upload(localVideoPath, {
       resource_type: "auto",
     });
-    // console.log("video uploaded", response.url);
+    console.log("video uploaded", response.url);
     fs.unlinkSync(localVideoPath);
     return response;
   } catch (error) {

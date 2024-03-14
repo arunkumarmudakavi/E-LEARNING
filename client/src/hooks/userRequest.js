@@ -97,9 +97,13 @@ const httpGetVideos = async () => {
   }
 };
 
-const httpGetVideo = async () => {
+const httpGetVideo = async ({_id}) => {
   try {
-    return await axios.get(`${import.meta.env.VITE_API_URL}/videos/:id`)
+    // console.log(import.meta.env.VITE_API_URL);
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/videos/${_id}`)
+    // const res = await axios.get(`${import.meta.env.VITE_API_URL}/videos/65f2ec24292f4fb3c96a8248`)
+    console.log(res);
+    return res;
   } catch (error) {
     return {
       ok: false,

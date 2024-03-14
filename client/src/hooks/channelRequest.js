@@ -38,7 +38,7 @@ const httpChannelLogin = async (data) => {
 
 const httpChannelLogout = async (data) => {
   try {
-    return await fetch(`${import.meta.env.CHANNEL_API_URL}/logout-channel`, {
+    return await fetch(`${import.meta.env.VITE_CHANNEL_API_URL}/logout-channel`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -57,6 +57,7 @@ const httpGetChannelProfile = async () => {
     const fetchedChannel = await axios.get(`${import.meta.env.VITE_CHANNEL_API_URL}/channelProfile`)
     // const response = await fetch(`${import.meta.env.VITE_CHANNEL_API_URL}/channelProfile`);
     // return await response.json();
+    console.log(fetchedChannel);
     return fetchedChannel;
   } catch (error) {
     return {
@@ -101,13 +102,17 @@ const httpUpdateAvatar = async (data) => {
 // I think error occurs here
 const httpUploadVideo = async (data) => {
   try {
-    return await fetch(`${import.meta.env.CHANNEL_API_URL}/uploadVideo`, {
-      method: "post",
-      headers: {
-        "Content-Type": "auto",
-      },
-      body: JSON.stringify(data),
-    });
+    // console.log(data?.videoFile[0]?.name);
+    // const imageName = data?.thumbnail[0]?.name;
+    // const videoName = data?.videoFile[0]?.name;
+    return await axios.post(`${import.meta.env.VITE_CHANNEL_API_URL}/uploadVideo`, data)
+    // return await fetch(`${import.meta.env.VITE_CHANNEL_API_URL}/uploadVideo`, {
+    //   method: "post",
+    //   headers: {
+    //     "Content-Type": "auto",
+    //   },
+    //   body: JSON.stringify(data),
+    // });
   } catch (error) {
     return {
       ok: false,

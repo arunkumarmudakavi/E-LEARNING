@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 const Protected = ({ children, authentication = true }) => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(true);
-  const authStatus = useSelector((state) => state.channelAuth.status);
+  const channelAuth = useSelector((state) => state.channelAuth.status);
 
   useEffect(() => {
-    if (authentication && authStatus !== authentication) {
+    if (authentication && channelAuth !== authentication) {
       navigate("/login-channel");
-    } else if (!authentication && authStatus !== authentication) {
+    } else if (!authentication && channelAuth !== authentication) {
       navigate("/channel-home");
     }
     setLoader(false);
-  }, [authStatus, navigate, authentication]);
+  }, [channelAuth, navigate, authentication]);
 
   return loader ? <h1>Loading...</h1> : <>{children}</>;
 };

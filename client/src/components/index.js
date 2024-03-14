@@ -14,7 +14,7 @@ import { SignUp } from "./Channel/SignUp/SignUp";
 import ChannelProfile from "./Channel/Profile/channelProfile"
 import { Videos } from "./Channel/Videos/Videos";
 import UploadVideo from "./Channel/UploadVideo/UploadVideo";
-import { ChannelHome } from "./Channel/Home/Home";
+import ChannelHome  from "./Channel/Home/Home";
 
 
 

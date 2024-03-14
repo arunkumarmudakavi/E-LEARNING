@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   status: false,
-  channelData: null,
+  userData: null,
 };
 
 const channelAuthSlice = createSlice({
@@ -11,10 +11,10 @@ const channelAuthSlice = createSlice({
   reducers: {
     channelLogin: (state, action) => {
       state.status = true;
-      state.channelData = action.payload.channelData;
+      state.userData = action.payload.userData;
     },
     channelLogout: (state) => {
-      (state.status = false), (state.channelData = null);
+      (state.status = false), (state.userData = null);
     }
   },
 });

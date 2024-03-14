@@ -208,8 +208,20 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 const uploadVideo = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
 
-  const videoPath = req.files[0]?.path;
+  // console.log(title);
+  // console.log(description);
+  // console.log(req.body);
+  // console.log(req.body.videoName);
+ 
+  const videoPath = req?.files[0]?.path;
   const thumb = req.files[1]?.path;
+
+  // It's working by distructuring video and image path while calling backend API from frontend
+  // const videoPath = req.body.videoName;
+  // const thumb = req.body.imageName;
+
+  // console.log(videoPath);
+  // console.log(thumb);
 
   if (!videoPath) throw new ApiError(400, "Video is required");
   if (!thumb) throw new ApiError(400, "Thumbnail is required");

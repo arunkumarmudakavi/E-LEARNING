@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const authStatus = useSelector((state) => state.auth.status);
+  // console.log(authStatus);
+
   useEffect(() => {
     httpGetVideos().then((posts) => {
       if (posts) {
@@ -39,7 +41,10 @@ const Home = () => {
     <div>
       <Container>
         {posts?.data?.data?.map((post) => (
-          <div key={post?._id}  className="max-w-screen-sm p-4 mt-3 mb-6 rounded-md m-auto flex justify-center bg-slate-400">
+          <div
+            key={post?._id}
+            className="max-w-screen-sm p-4 mt-3 mb-6 rounded-md m-auto flex justify-center bg-slate-400"
+          >
             {/* <PostCard post ={post}/> or below 
                         console.log(post)*/}
             <PostCard {...post} />

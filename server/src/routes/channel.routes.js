@@ -31,7 +31,7 @@ channelRouter.route("/uploadVideo").post(
   verifyJWTChannel,
   upload.any([
     {
-      name: "video",
+      name: "videoFile",
       maxCount: 1,
     },
     {

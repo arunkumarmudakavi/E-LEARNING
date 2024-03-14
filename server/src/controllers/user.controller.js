@@ -247,12 +247,13 @@ const changePassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password updated successfully"));
 });
 
-const getVideos = asyncHandler(async (req, res) => {
-  const videos = await Video.find(req.videoFile);
+const getVideos = asyncHandler(async (_, res) => {
+  // console.log(req.thumbnail);
+  const videos = await Video.find();
   // .select(
   //   "-createdAt -updatedAt"
   // );
-  // console.log(videos.videoFile);
+  // console.log(videos);
 
   return res
     .status(200)
@@ -266,7 +267,10 @@ const getVideos = asyncHandler(async (req, res) => {
 });
 
 const getVideo = asyncHandler(async (req, res) => {
-  const videos = await Video.findOne(req._id);
+  console.log(req.params._id);
+  const data = req.params._id
+  const videos = await Video.findById(data);
+  console.log(videos);
   // .select(
   //   "-createdAt -updatedAt"
   // );
@@ -278,7 +282,7 @@ const getVideo = asyncHandler(async (req, res) => {
       new ApiResponse(
         200, 
         videos, 
-        "User details fetched successfully"
+        "Video fetched successfully"
       )
     );
 });
