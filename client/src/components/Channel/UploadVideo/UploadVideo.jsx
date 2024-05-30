@@ -14,6 +14,7 @@ const UploadVideo = () => {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
   const response = useSelector((state) => state.channelAuth.status);
+  const [loading, setLoading] = useState(false)
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");

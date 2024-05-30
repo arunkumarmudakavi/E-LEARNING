@@ -65,11 +65,11 @@ const Header = () => {
             slug: "/login-channel",
             active: !channelAuthStatus && !authStatus
         },
-        {
-            name: 'Profile',
-            slug: "/channelProfile",
-            active: channelAuthStatus
-        },
+        // {
+        //     name: 'Profile',
+        //     slug: "/channelProfile",
+        //     active: channelAuthStatus
+        // },
         {
             name: 'Upload Video',
             slug: "/uploadVideo",

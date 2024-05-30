@@ -261,7 +261,7 @@ const getVideos = asyncHandler(async (_, res) => {
       new ApiResponse(
         200, 
         videos, 
-        "User details fetched successfully"
+        "Videos fetched successfully"
       )
     );
 });

@@ -23,20 +23,6 @@ const Home = () => {
       </div>
     );
   }
-  // if (posts.length === 0) {
-  //     return (
-  //         <div>
-  //             <Container>
-  //                 Login to Get Videos
-  //             </Container>
-  //         </div>
-  //     )
-  // }
-  // const style = {
-  //   display: grid;
-  //   : repeat(3, 1fr);
-  // }
-
   return (
     <div>
       <Container>
@@ -56,3 +42,21 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
+
+  // if (posts.length === 0) {
+  //     return (
+  //         <div>
+  //             <Container>
+  //                 Login to Get Videos
+  //             </Container>
+  //         </div>
+  //     )
+  // }
+  // const style = {
+  //   display: grid;
+  //   : repeat(3, 1fr);
+  // }

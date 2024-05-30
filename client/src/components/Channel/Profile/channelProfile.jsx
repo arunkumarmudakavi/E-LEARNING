@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 const channelProfile = () => {
   const currentUser = useSelector((state) => state.payload);
-  console.log(currentUser);
+  // console.log(currentUser);
   // return (
   //   <div className="flex justify-center ">
         

@@ -7,13 +7,13 @@ const SingleVideo = () => {
   // while using useParams the name should be same as name mationed in the route
   const { _id } = useParams();
   const navigate = useNavigate();
-  console.log(_id);
+  // console.log(_id);
 
   useEffect(() => {
       httpGetVideo({_id})
       .then((data) => {
         if (data) {
-          console.log(data);
+          // console.log(data);
           setPosts(data);
         }
       });
